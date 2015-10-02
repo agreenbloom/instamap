@@ -1,14 +1,24 @@
 $(document).on('ready', function(){
   L.mapbox.accessToken = 'pk.eyJ1IjoiYWdyZWVuYmxvb20iLCJhIjoiMmIyMWUzZjc2OTE2Yjk3ODg2NDM1NGM3MDZiOWYxMzcifQ.VsF_nJF3v7yTmshY8MEcKQ';
 
-  var map = L.mapbox.map('map-one', 'mapbox.streets')
+  var map = L.mapbox.map('map-one')
     .setView([55.1788, -105.9960], 4);
   var layers = document.getElementById('menu-ui');
 
+// add layers to map
   addLayer(L.mapbox.tileLayer('mapbox.streets'), 'Base Map',1 )
   addLayer(L.mapbox.tileLayer('agreenbloom.nin7jalk'), 'Cities Visited',2);
   addLayer(L.mapbox.tileLayer('instagram'), 'instagram Pictures', 3);
 
+  var layer = L.mapbox.tileLayer('mapbox.streets')
+    .on('ready', function(){
+      var TileJSON = layer.getTileJSON();
+    })
+
+  var layer = L.mapbox.tileLayer('agreenbloom.nin7jalk')
+    .on('ready', function () {
+      var TileJSON = layer.getTileJSON();
+    })
 
   function addLayer(layer, name, zIndex) {
     layer
@@ -38,6 +48,21 @@ $(document).on('ready', function(){
     layers.appendChild(link);
   }
 
+// function for pop up button
+
+  map.featureLayer.on('ready', function(e){
+    document.getElementById('open-popup').onclick = clickbutton;
+  });
+
+  function clickButton(){
+    map.featureLayer.eachLayer(function(marker){
+      if (maker.feature.properties.title ==- '') {
+        marker.openPopup();
+      }
+    });
+  }
+
+// get images from Instagram
   function mapData(data) {
 
     window.data = data;
@@ -52,6 +77,8 @@ $(document).on('ready', function(){
 
         // console.log(arr);
       }
+
+      // creating markers from instagram pictures
       var iconUrl = data[i]['images']['thumbnail']['url']
       var myIcon = L.icon({
         iconUrl: iconUrl,
@@ -60,9 +87,13 @@ $(document).on('ready', function(){
         popupAnchor: [0, -25],
       })
 
-      var marker = L.marker(arr, {icon: myIcon}).addTo(map);
-      console.log(marker);
+      var marker = L.marker(arr, {
+        icon: myIcon
+      })
+      .bindPopup(data[i]['caption']['text'])
 
+      .addTo(map);
+      ;
 
     }
   }
