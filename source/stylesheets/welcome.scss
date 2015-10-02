@@ -1,0 +1,26 @@
+
+
+
+#home{
+    position: fixed;
+    z-index: 1;
+    top: 28%;
+    right: 24%;
+    background: rgba(255, 255, 255, 0.75);
+    width: 50%;
+    border: 4px solid #657156;
+    transition-delay: 5s;
+    transition-duration: 5s;
+    transition-timing-function: inherit;
+
+  h2{
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 3.5em;
+  }
+
+  h3{
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 2.5em;
+  }
+
+}

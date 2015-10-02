@@ -9,8 +9,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title><%= current_page.data.title || "My Instamap" %></title>
 
+    <link href='https://fonts.googleapis.com/css?family=Josefin+Sans:400,600,300italic|Qwigley' rel='stylesheet' type='text/css'>
 
-    <%= stylesheet_link_tag "normalize", "all", "mapbox" %>
+    <%= stylesheet_link_tag "normalize", "all", "mapbox", "welcome" %>
     <%= javascript_include_tag  "all" %>
 
 

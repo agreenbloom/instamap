@@ -1,4 +1,5 @@
 $(document).on('ready', function(){
+
   L.mapbox.accessToken = 'pk.eyJ1IjoiYWdyZWVuYmxvb20iLCJhIjoiMmIyMWUzZjc2OTE2Yjk3ODg2NDM1NGM3MDZiOWYxMzcifQ.VsF_nJF3v7yTmshY8MEcKQ';
 
   var map = L.mapbox.map('map-one')
@@ -6,19 +7,15 @@ $(document).on('ready', function(){
   var layers = document.getElementById('menu-ui');
 
 // add layers to map
-  addLayer(L.mapbox.tileLayer('mapbox.streets'), 'Base Map',1 )
-  addLayer(L.mapbox.tileLayer('agreenbloom.nin7jalk'), 'Cities Visited',2);
-  addLayer(L.mapbox.tileLayer('instagram'), 'instagram Pictures', 3);
 
-  var layer = L.mapbox.tileLayer('mapbox.streets')
-    .on('ready', function(){
-      var TileJSON = layer.getTileJSON();
-    })
+var featureLayer = L.mapbox.featureLayer('agreenbloom.nin7jalk');
 
-  var layer = L.mapbox.tileLayer('agreenbloom.nin7jalk')
-    .on('ready', function () {
-      var TileJSON = layer.getTileJSON();
-    })
+featureLayer.on('ready', function() {
+  console.log(featureLayer.getGeoJSON());
+});
+
+
+
 
   function addLayer(layer, name, zIndex) {
     layer
@@ -38,7 +35,7 @@ $(document).on('ready', function(){
 
       if (map.hasLayer(layer)) {
         map.removeLayer(layer);
-        this.className = '';
+        this.className = 'Cities Visited';
       } else {
         map.addLayer(layer);
         this.className = 'active';
@@ -47,6 +44,9 @@ $(document).on('ready', function(){
 
     layers.appendChild(link);
   }
+
+  addLayer(L.mapbox.tileLayer('agreenbloom.nin7jalk'), 'Cities Visited', 1)
+  addLayer(L.mapbox.tileLayer('map'), 'Instagram Pictures', 2);
 
 // function for pop up button
 
@@ -91,7 +91,6 @@ $(document).on('ready', function(){
         icon: myIcon
       })
       .bindPopup(data[i]['caption']['text'])
-
       .addTo(map);
       ;
 
