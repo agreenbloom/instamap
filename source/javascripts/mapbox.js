@@ -2,7 +2,7 @@ $(document).on('ready', function(){
 
   L.mapbox.accessToken = 'pk.eyJ1IjoiYWdyZWVuYmxvb20iLCJhIjoiMmIyMWUzZjc2OTE2Yjk3ODg2NDM1NGM3MDZiOWYxMzcifQ.VsF_nJF3v7yTmshY8MEcKQ';
 
-  var map = L.mapbox.map('map-one')
+  var map = L.mapbox.map('map-one', 'mapbox.streets')
     .setView([55.1788, -105.9960], 4);
   var layers = document.getElementById('menu-ui');
 
@@ -16,37 +16,6 @@ featureLayer.on('ready', function() {
 
 
 
-
-  function addLayer(layer, name, zIndex) {
-    layer
-    .setZIndex(zIndex)
-    .addTo(map);
-
-    // Create a simple layer switcher that
-    // toggles layers on and off.
-    var link = document.createElement('a');
-    link.href = '#';
-    link.className = 'active';
-    link.innerHTML = name;
-
-    link.onclick = function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (map.hasLayer(layer)) {
-        map.removeLayer(layer);
-        this.className = 'Cities Visited';
-      } else {
-        map.addLayer(layer);
-        this.className = 'active';
-      }
-    };
-
-    layers.appendChild(link);
-  }
-
-  addLayer(L.mapbox.tileLayer('agreenbloom.nin7jalk'), 'Cities Visited', 1)
-  addLayer(L.mapbox.tileLayer('map'), 'Instagram Pictures', 2);
 
 // function for pop up button
 
