@@ -1,13 +1,44 @@
 $(document).on('ready', function(){
   L.mapbox.accessToken = 'pk.eyJ1IjoiYWdyZWVuYmxvb20iLCJhIjoiMmIyMWUzZjc2OTE2Yjk3ODg2NDM1NGM3MDZiOWYxMzcifQ.VsF_nJF3v7yTmshY8MEcKQ';
 
-  var map = L.mapbox.map('map-one', 'agreenbloom.nin7jalk')
+  var map = L.mapbox.map('map-one', 'mapbox.streets')
     .setView([55.1788, -105.9960], 4);
+  var layers = document.getElementById('menu-ui');
+
+  addLayer(L.mapbox.tileLayer('mapbox.streets'), 'Base Map',1 )
+  addLayer(L.mapbox.tileLayer('agreenbloom.nin7jalk'), 'Cities Visited',2);
+  addLayer(L.mapbox.tileLayer('instagram'), 'instagram Pictures', 3);
 
 
+  function addLayer(layer, name, zIndex) {
+    layer
+    .setZIndex(zIndex)
+    .addTo(map);
+
+    // Create a simple layer switcher that
+    // toggles layers on and off.
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'active';
+    link.innerHTML = name;
+
+    link.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (map.hasLayer(layer)) {
+        map.removeLayer(layer);
+        this.className = '';
+      } else {
+        map.addLayer(layer);
+        this.className = 'active';
+      }
+    };
+
+    layers.appendChild(link);
+  }
 
   function mapData(data) {
-    // var featureLayer = L.mapbox.featureLayer().addTo(map);
 
     window.data = data;
 
@@ -25,6 +56,8 @@ $(document).on('ready', function(){
       var myIcon = L.icon({
         iconUrl: iconUrl,
         iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -25],
       })
 
       var marker = L.marker(arr, {icon: myIcon}).addTo(map);
